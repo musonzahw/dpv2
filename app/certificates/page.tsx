@@ -269,7 +269,7 @@ function GridCard({
           <button
             type="button"
             onClick={() => onView(cert)}
-            className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-4 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+            className="flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-muted px-4 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
           >
             View certificate
           </button>
@@ -327,7 +327,7 @@ function ListRow({
       <button
         type="button"
         onClick={() => onView(cert)}
-        className="shrink-0 flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+        className="shrink-0 flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
       >
         View
       </button>
@@ -363,7 +363,7 @@ function TileCard({
           {cert.title}
         </h3>
         <p className="text-[10px] text-muted-foreground">{cert.issuer}</p>
-        <span className="mt-1 text-[10px] font-medium text-violet-500 hover:underline text-left">
+        <span className="mt-1 text-left text-[10px] font-medium text-violet-500 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:underline motion-reduce:transform-none motion-reduce:transition-none">
           View →
         </span>
       </div>
@@ -631,7 +631,7 @@ export default function CertificatesPage() {
                             <p className="text-sm text-white/70 mt-0.5">
                               {cert.issuer}
                             </p>
-                            <span className="mt-3 self-start flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/20 px-3 py-1 text-xs font-medium text-white hover:bg-white/30 transition-colors">
+                            <span className="mt-3 self-start flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/20 px-3 py-1 text-xs font-medium text-white transition-all duration-200 group-hover:-translate-y-0.5 group-hover:scale-105 group-hover:border-violet-300/60 group-hover:bg-violet-500/30 group-hover:shadow-[0_6px_16px_rgba(124,58,237,0.3)] motion-reduce:transform-none motion-reduce:transition-none">
                               View certificate
                             </span>
                           </div>

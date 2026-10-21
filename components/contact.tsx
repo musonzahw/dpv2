@@ -1,172 +1,277 @@
 "use client";
-import { Send, CheckCircle, XCircle, X } from "lucide-react";
+
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { FadeInOnScroll } from "@/components/fade-in-on-scroll";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+  XCircle,
+} from "lucide-react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-interface Toast {
-  type: "success" | "error";
-  message: string;
-}
-
 export function Contact() {
   const [status, setStatus] = useState<Status>("idle");
-  const [toast, setToast] = useState<Toast | null>(null);
 
-  function showToast(type: "success" | "error", message: string) {
-    setToast({ type, message });
-    setTimeout(() => setToast(null), 4000);
-  }
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setStatus("sending");
 
-    const form = e.currentTarget;
-    const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement)
-        .value,
-    };
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     try {
-      const res = await fetch("/api/send", {
+      const response = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          message: formData.get("message"),
+        }),
       });
 
-      if (res.ok) {
-        setStatus("sent");
-        form.reset();
-        showToast("success", "Message sent! I'll get back to you soon.");
-        setTimeout(() => setStatus("idle"), 4000);
-      } else {
+      if (!response.ok) {
         setStatus("error");
-        showToast("error", "Something went wrong. Please try again.");
-        setTimeout(() => setStatus("idle"), 4000);
+        return;
       }
+
+      form.reset();
+      setStatus("sent");
     } catch {
       setStatus("error");
-      showToast("error", "Network error. Please check your connection.");
-      setTimeout(() => setStatus("idle"), 4000);
     }
   }
 
   return (
-    <>
-      {/* Toast */}
-      {toast && (
-        <div
-          className={`fixed top-20 right-6 z-[100] flex items-center gap-3 rounded-2xl border px-4 py-3 shadow-lg backdrop-blur-sm ${
-            toast.type === "success"
-              ? "border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400"
-              : "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
-          }`}
-        >
-          {toast.type === "success" ? (
-            <CheckCircle className="size-5 shrink-0" />
-          ) : (
-            <XCircle className="size-5 shrink-0" />
-          )}
-          <span className="text-sm font-medium">{toast.message}</span>
-          <button
-            onClick={() => setToast(null)}
-            className="ml-1 opacity-60 hover:opacity-100 transition-opacity"
-            aria-label="Dismiss"
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative isolate w-full overflow-hidden bg-background px-4 py-16 sm:px-6 sm:py-20 lg:py-24"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklch,#8b5cf6_10%,transparent),transparent_60%)]"
+      />
+
+      <div className="mx-auto max-w-6xl">
+        <div className="mx-auto mb-12 flex max-w-2xl flex-col items-center gap-4 text-center sm:mb-14">
+          <h1
+            id="contact-heading"
+            className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
           >
-            <X className="size-4" />
-          </button>
+            Let&apos;s build something meaningful.
+          </h1>
+          <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Have an idea, a project, or a question? Tell me a little about it
+            and I&apos;ll get back to you.
+          </p>
         </div>
-      )}
 
-      <FadeInOnScroll>
-        <section
-          id="contact"
-          className="mx-auto w-full max-w-2xl px-4 pt-16 pb-16 sm:px-6"
-        >
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_120%_at_15%_50%,color-mix(in_oklch,var(--primary)_18%,transparent),transparent)]"
-            />
-            <div className="flex flex-col gap-10">
-              <div className="text-center">
-                <h2 className="text-balance text-3xl font-extrabold leading-tight tracking-tight text-violet-600 dark:text-violet-400 sm:text-4xl">
-                  Bringing your ideas to life.
-                  <br />
-                  Let&apos;s turn your vision into reality
-                </h2>
-                <p className="mt-4 leading-relaxed text-muted-foreground">
-                  Have a project in mind or just want to chat? Let&apos;s
-                  connect!
-                </p>
-              </div>
+        <div className="mx-auto grid max-w-5xl items-stretch gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
+          <div className="flex min-h-[30rem] flex-col overflow-hidden rounded-3xl border border-border/70 bg-card/70 p-6 shadow-sm sm:p-8">
+            <div>
+              <h2 className="text-xl font-semibold text-foreground">
+                Get in touch
+              </h2>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+                I&apos;m open to thoughtful collaborations and interesting
+                problems. The easiest way to reach me is by email.
+              </p>
+            </div>
 
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-2xl border border-border bg-background/60 p-6 backdrop-blur"
+            <div className="mt-6 flex flex-col items-start gap-3">
+              <a
+                href="mailto:musonzahw@gmail.com"
+                className="group flex w-fit items-center gap-3 rounded-2xl border border-border/70 bg-background/70 p-3.5 transition-colors hover:border-violet-500/40 hover:bg-accent/60"
               >
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label htmlFor="name" className="text-sm font-semibold">
-                      Name
-                    </label>
-                    <input
-                      id="name"
-                      name="name"
-                      required
-                      placeholder="Your Name"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500">
+                  <Mail className="size-4" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-xs font-medium text-muted-foreground">
+                    Email me
+                  </span>
+                  <span className="mt-0.5 flex items-center gap-2 text-sm font-semibold text-foreground">
+                    musonzahw@gmail.com
+                    <ArrowUpRight
+                      className="size-3.5 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
                     />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label htmlFor="email" className="text-sm font-semibold">
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      placeholder="contact@example.com"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
+                  </span>
+                </span>
+              </a>
+              <a
+                href="tel:+263785800241"
+                className="group flex w-fit items-center gap-3 rounded-2xl border border-border/70 bg-background/70 p-3.5 transition-colors hover:border-violet-500/40 hover:bg-accent/60"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500">
+                  <Phone className="size-4" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-xs font-medium text-muted-foreground">
+                    Call me
+                  </span>
+                  <span className="mt-0.5 flex items-center gap-2 text-sm font-semibold text-foreground">
+                    +263 78 580 0241
+                    <ArrowUpRight
+                      className="size-3.5 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
                     />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label htmlFor="message" className="text-sm font-semibold">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={4}
-                      placeholder="Your message here..."
-                      className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
-                    />
-                  </div>
+                  </span>
+                </span>
+              </a>
+            </div>
 
-                  <div className="flex justify-end">
-                    <Button type="submit" disabled={status === "sending"}>
-                      <Send className="size-4" />
-                      {(() => {
-                        let buttonText = "Send";
-                        if (status === "sending") buttonText = "Sending...";
-                        else if (status === "sent") buttonText = "✓ Sent!";
-                        return buttonText;
-                      })()}
-                    </Button>
-                  </div>
+            <div className="relative mt-auto flex min-h-64 flex-1 items-center justify-center overflow-hidden pt-8">
+              <div
+                aria-hidden="true"
+                className="absolute size-64 rounded-full border border-violet-500/10"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute size-52 rounded-full border border-dashed border-violet-500/15"
+              />
+              <div
+                aria-hidden="true"
+                className="relative size-48 overflow-hidden rounded-full border border-violet-500/25 bg-[radial-gradient(circle_at_35%_30%,color-mix(in_oklch,#8b5cf6_16%,var(--background)),var(--background)_68%)] shadow-[0_0_70px_-24px_color-mix(in_oklch,#8b5cf6_45%,transparent)]"
+              >
+                <div className="contact-globe-rotation absolute inset-0">
+                  <span className="absolute inset-y-0 left-1/2 w-1/2 -translate-x-1/2 rounded-[50%] border-x border-violet-500/20" />
+                  <span className="absolute inset-y-0 left-1/2 w-3/4 -translate-x-1/2 rounded-[50%] border-x border-violet-500/15" />
+                  <span className="absolute inset-y-0 left-1/2 w-full -translate-x-1/2 rounded-[50%] border-x border-violet-500/10" />
+                  <span className="absolute inset-x-0 top-1/4 h-1/2 rounded-[50%] border-y border-violet-500/20" />
+                  <span className="absolute inset-x-0 top-[38%] h-1/4 rounded-[50%] border-t border-violet-500/15" />
+                  <span className="absolute left-[24%] top-[34%] size-2 rounded-full bg-violet-500 shadow-[0_0_14px_#8b5cf6]" />
+                  <span className="absolute right-[18%] top-[62%] size-1.5 rounded-full bg-violet-400 shadow-[0_0_10px_#8b5cf6]" />
                 </div>
-              </form>
+                <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_70%_65%,transparent_40%,color-mix(in_oklch,var(--background)_88%,transparent)_100%)]" />
+              </div>
+              <span
+                aria-hidden="true"
+                className="absolute bottom-[27%] left-[17%] size-1.5 rounded-full bg-violet-500/50"
+              />
+              <div className="absolute bottom-1 flex items-center gap-2 rounded-full border border-border/70 bg-background/85 px-3.5 py-2 text-xs font-medium text-muted-foreground backdrop-blur">
+                <MapPin
+                  className="size-3.5 text-violet-500"
+                  aria-hidden="true"
+                />
+                Open to remote collaboration
+              </div>
             </div>
           </div>
-        </section>
-      </FadeInOnScroll>
-    </>
+
+          <div className="rounded-3xl border border-border/70 bg-card p-6 shadow-sm sm:p-8">
+            <div>
+              <h2 className="text-xl font-semibold text-foreground">
+                Send a message
+              </h2>
+              <p className="mt-1.5 text-sm text-muted-foreground">
+                Share a few details and I&apos;ll be in touch.
+              </p>
+            </div>
+
+            <div
+              aria-hidden="true"
+              className="my-6 h-3 w-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--muted-foreground)_45%,transparent)_1px,transparent_1px)] bg-[length:7px_7px] [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
+            />
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="contact-name"
+                    className="text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+                  >
+                    Full name
+                  </label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    maxLength={120}
+                    placeholder="Your name"
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus-visible:border-violet-500 focus-visible:ring-2 focus-visible:ring-violet-500/20"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="contact-email"
+                    className="text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+                  >
+                    Email address
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    maxLength={254}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus-visible:border-violet-500 focus-visible:ring-2 focus-visible:ring-violet-500/20"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="contact-message"
+                  className="text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  required
+                  maxLength={5000}
+                  rows={6}
+                  placeholder="Tell me about your project, idea, or question..."
+                  className="w-full resize-y rounded-xl border border-input bg-background px-4 py-3 text-sm leading-relaxed text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus-visible:border-violet-500 focus-visible:ring-2 focus-visible:ring-violet-500/20"
+                />
+              </div>
+
+              {status === "sent" && (
+                <p
+                  role="status"
+                  className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+                >
+                  <CheckCircle2
+                    className="size-4 shrink-0"
+                    aria-hidden="true"
+                  />
+                  Message sent. Thanks for reaching out!
+                </p>
+              )}
+              {status === "error" && (
+                <p
+                  role="alert"
+                  className="flex items-center gap-2 text-sm font-medium text-destructive"
+                >
+                  <XCircle className="size-4 shrink-0" aria-hidden="true" />
+                  Message could not be sent. Please try again or email me
+                  directly.
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                <Send className="size-4" aria-hidden="true" />
+                {status === "sending" ? "Sending..." : "Send message"}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
