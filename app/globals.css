@@ -223,3 +223,23 @@
 .float-icon {
   animation: float 3s ease-in-out infinite;
 }
+
+@keyframes contact-globe-rotation {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.contact-globe-rotation {
+  transform-style: preserve-3d;
+  animation: contact-globe-rotation 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-globe-rotation {
+    animation: none;
+  }
+}

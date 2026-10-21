@@ -186,7 +186,7 @@ function ActionButtons({ project }: { project: Project }) {
         <Link
           href={project.projectHref}
           onClick={(event) => event.stopPropagation()}
-          className="flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+          className="flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
         >
           Open project <ArrowRight className="size-3" />
         </Link>
@@ -194,7 +194,7 @@ function ActionButtons({ project }: { project: Project }) {
         <Link
           href={project.demo}
           onClick={(event) => event.stopPropagation()}
-          className="flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+          className="flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
         >
           <Play className="size-3" /> Video demo
         </Link>
@@ -203,7 +203,7 @@ function ActionButtons({ project }: { project: Project }) {
         <Link
           href={project.artifacts}
           onClick={(event) => event.stopPropagation()}
-          className="flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+          className="flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
         >
           <ImageIcon className="size-3" /> Artifacts
         </Link>
@@ -214,7 +214,7 @@ function ActionButtons({ project }: { project: Project }) {
           <Link
             href={project.github}
             onClick={(event) => event.stopPropagation()}
-            className="flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+            className="flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
           >
             <GitBranch className="size-3" /> GitHub
           </Link>
@@ -224,7 +224,7 @@ function ActionButtons({ project }: { project: Project }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(event) => event.stopPropagation()}
-            className="flex items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+            className="flex cursor-pointer items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
           >
             <GitBranch className="size-3" /> GitHub
           </a>
